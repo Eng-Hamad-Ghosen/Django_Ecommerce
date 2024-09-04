@@ -3,12 +3,16 @@ from django.utils.translation import gettext_lazy as _
 # Create your models here.
 class Product(models.Model):
     PRDName = models.CharField(max_length=100 , verbose_name=_('Product Name'))
-    # category = models
+    PRDCategory = models.ForeignKey('Category' , on_delete=models.CASCADE , verbose_name=_('Category') ,related_name='category_product')
+    #from other app
+    PRDPrand = models.ForeignKey('settings.Brand',on_delete=models.CASCADE ,verbose_name=_('Brand Name') ,related_name='prand_product',blank=True, null=True)
+    PRDVariant = models.ForeignKey('settings.Variant',on_delete=models.CASCADE ,verbose_name=_('Variant Name') ,related_name='variant_product',blank=True, null=True)
+    #---------------
     PRDDescription = models.TextField(max_length=200 , verbose_name=_('Product Description'))
+    PRDPrice = models.DecimalField(max_digits=5 , decimal_places=2 , verbose_name=_('Product Price'))
+    PRDCost = models.DecimalField(max_digits=5 , decimal_places=2 , verbose_name=_('Product Cost'))
+    PRDCreated = models.DateTimeField(verbose_name=_('Created At'))
     # PRDImage = models.ImageField(upload_to='product/')
-    PRDPrice = models.DecimalField(max_digits=5 , decimal_places=2 , verbose_name=('Product Price'))
-    PRDCost = models.DecimalField(max_digits=5 , decimal_places=2 , verbose_name=('Product Cost'))
-    PRDCreated = models.DateTimeField(verbose_name=('Created At'))
     
     def __str__(self):
         return self.PRDName
