@@ -82,12 +82,15 @@
 
                   {% else %}
                   <!-- <img src="/static/site_static/img/default image.jpg" class="card-img-top" alt="..."> -->
-                  <img src="{% static 'site_static/img/default-image.jpg' %}" class="card-img-top" style="max-width:154px; max-height: 102px;" alt="...">
-
+                  <a href="{% url 'product:product_details' product.id %}">
+                    <img src="{% static 'site_static/img/default-image.jpg' %}" class="card-img-top" style="max-width:154px; max-height: 102px;" alt="...">
+                  </a>
                   {% endif %}
 
                   <div class="card-body">
-                    <h5 class="card-title">{{product.PRDName}}</h5>
+                    <a href="{% url 'product:product_details' product.id %}">
+                      <h5 class="card-title">{{product.PRDName}}</h5>
+                    </a>
                     <p class="card-text">{{product.PRDDescription}}.</p>
                     <a href="{% url 'product:product_details' product.id %}" class="btn btn-primary">Add To Cart</a>
                   </div>
@@ -100,18 +103,28 @@
 
       <div class="container">
         <div class="row">
-
-          <div class="all_products_pagination">
-            <nav aria-label="Page navigation example">
+          
+          {% if product_list.has_other_pages %}
+            <div class="all_products_pagination">
+              <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                  
+                  {% if product_list.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{product_list.previous_page_number}}">Previous</a></li>
+                  {% endif %}
+
+                  {% for i in product_list.paginator.page_range %}
+                    <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+                  {% endfor %}
+
+                  {% if product_list.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{product_list.next_page_number}}">Next</a></li>
+                  {% endif %}
+                    
                 </ul>
-            </nav>
-          </div>
+              </nav>
+            </div>
+          {% endif %}
 
         </div>
       </div>

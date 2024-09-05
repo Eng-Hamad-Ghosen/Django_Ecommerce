@@ -54,10 +54,41 @@
       <div class="container mt-5 mb-5">
         <div class="row">
             <div class="col-md-6">
-              {% for image in product_images  %}
+              
+              {% if product_images %}
+                {% for image in product_images  %}
+                  
+                <img src="{{image.PRDIImage.url}}" class="card-img-top" style="width: 500px;height: 350px;" alt="...">
+                {% endfor %}
+
+              {% else %}
+                <img src="{% static 'site_static/img/default-image.jpg' %}" class="card-img-top" style="max-width:154px; max-height: 102px;" alt="...">
+
+              {% endif %}
                 
-              <img src="{{image.PRDIImage.url}}" class="card-img-top" alt="...">
-              {% endfor %}
+              
+              
+              {% if product_images.has_other_pages %}
+                <div class="all_products_pagination">
+                  <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                      
+                      <!-- {% if product_images.has_previous %}
+                        <li class="page-item"><a class="page-link" href="?page={{product_images.previous_page_number}}">Previous</a></li>
+                      {% endif %} -->
+
+                      {% for i in product_images.paginator.page_range %}
+                        <li class="page-item"><a class="page-link" href="?page={{i}}">Image {{i}}</a></li>
+                      {% endfor %}
+
+                      <!-- {% if product_images.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{product_images.next_page_number}}">Next</a></li>
+                      {% endif %} -->
+                        
+                    </ul>
+                  </nav>
+                </div>
+              {% endif %}
             </div>
 
             <div class="col-md-6">
