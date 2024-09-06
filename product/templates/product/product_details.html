@@ -1,174 +1,151 @@
+{% extends 'base.html' %}
+{% block body %}
 {% load static %}
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!--Main layout-->
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'site_static/css/style.css' %}">
+      <!--Grid row-->
+      <div class="row wow fadeIn">
 
-    <title>Product Details</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Souq Store</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Categories
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
+        <!--Grid column-->
+        
+        
           
-          </ul>
+        <div class="col-md-6 mb-4">
+          
+          {% if product_images %}
 
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+            {% for product in product_images %}
+              <img style="height: 250px; width: auto;" src="{{product.PRDIImage.url}}" class="img-fluid" alt="">
+            {% endfor %}
 
-          <div class="m-3">
-              <a href="">Cart</a>
-              <a href="">HG</a>
-          </div>
-        </div>
-      </div>
-    </nav>
-      <div class="container mt-5 mb-5">
-        <div class="row">
-            <div class="col-md-6">
-              
-              {% if product_images %}
-                {% for image in product_images  %}
-                  
-                <img src="{{image.PRDIImage.url}}" class="card-img-top" style="width: 500px;height: 350px;" alt="...">
-                {% endfor %}
+            {% else %}
+              <img style="height: 250px; width: auto;" src="{% static 'site_static/img/default.jpg' %}" class="img-fluid" alt="">
 
-              {% else %}
-                <img src="{% static 'site_static/img/default-image.jpg' %}" class="card-img-top" style="max-width:154px; max-height: 102px;" alt="...">
-
-              {% endif %}
-                
-              
-              
-              {% if product_images.has_other_pages %}
-                <div class="all_products_pagination">
-                  <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                      
-                      <!-- {% if product_images.has_previous %}
-                        <li class="page-item"><a class="page-link" href="?page={{product_images.previous_page_number}}">Previous</a></li>
-                      {% endif %} -->
-
-                      {% for i in product_images.paginator.page_range %}
-                        <li class="page-item"><a class="page-link" href="?page={{i}}">Image {{i}}</a></li>
-                      {% endfor %}
-
-                      <!-- {% if product_images.has_next %}
-                        <li class="page-item"><a class="page-link" href="?page={{product_images.next_page_number}}">Next</a></li>
-                      {% endif %} -->
-                        
-                    </ul>
-                  </nav>
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="col-md-6">
-              <h1>{{product_details.PRDName}}</h1>
-              <h4>{{product_details.PRDCategory.CATName}}</h4>
-              Item variant
-
-
-              <div class="">
-                <form>
-                  <div class="mb-3">
-                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="1">
-                  </div>
-                  
-                  <button type="submit" class="btn btn-primary">Add To Cart</button>
-                </form>
-              </div>
-            </div>
+          {% endif %}
             
+          {% if product_images.has_other_pages %}
+
+
+          <nav class="d-flex justify-content-center wow fadeIn mt-1">
+            <ul class="pagination pg-blue">
+    
+              <!--Arrow left--> 
+              {% for i in product_images.paginator.page_range %}
+                
+                <li class="page-item">
+                  <a style="color: blue;" class="page-link" href="?page={{i}}">Image {{i}}</a>
+                </li>
+
+              {% endfor %}
+            </ul>
+          </nav>
+        
+        {% endif %}
+          
+        </div>
+
+        
+            
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <!--Content-->
+          <div class="p-4">
+
+            <div class="mb-3">
+              <a href="">
+                <span class="badge purple mr-1">Category 2</span>
+              </a>
+              <a href="">
+                <span class="badge blue mr-1">New</span>
+              </a>
+              <a href="">
+                <span class="badge red mr-1">Bestseller</span>
+              </a>
+            </div>
+
+            <p class="lead">
+              <span class="mr-1">
+                <del>$300</del>
+              </span>
+              <span>{{product_details.PRDPrice}}</span>
+            </p>
+
+            <p class="lead font-weight-bold">Description</p>
+
+            <p>{{product_details.PRDDescription}}.</p>
+
+            <form class="d-flex justify-content-left">
+              <!-- Default input -->
+              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+              <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+              </button>
+
+            </form>
+
+          </div>
+          <!--Content-->
 
         </div>
-        <div class="row mt-5">
-          <h3>Product Desciption</h3>
-          <p class="p-3">{{product_details.PRDDescription}}</p>
-        </div>
+        <!--Grid column-->
+
       </div>
+      <!--Grid row-->
 
       <hr>
 
-      <div class="container mt-5 mb-5">
-        <h1>Leave Your Review</h1>
-        <form>
+      <!--Grid row-->
+      <div class="row d-flex justify-content-center wow fadeIn">
 
-          <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">leave your review</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-          </div>
+        <!--Grid column-->
+        <div class="col-md-6 text-center">
 
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-            <label class="form-check-label" for="inlineRadio1">1</label>
-          </div>
-
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-            <label class="form-check-label" for="inlineRadio2">2</label>
-          </div>
-
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" >
-            <label class="form-check-label" for="inlineRadio3">3</label>
-          </div>
-
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" >
-            <label class="form-check-label" for="inlineRadio3">4</label>
-          </div>
-
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" >
-            <label class="form-check-label" for="inlineRadio3">5</label>
-          </div>
-
+          <h4 class="my-4 h4">Accessories</h4>
           
-
-          <button type="submit" class="btn btn-primary">Add Review</button>
-        </form>
+        </div>
+        <!--Grid column-->
 
       </div>
+      <!--Grid row-->
 
-    
-    <!-- Optional JavaScript; choose one of the two! -->
+      <!--Grid row-->
+      <div class="row wow fadeIn">
 
-    <!-- Option 1: Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-12 mb-4">
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    -->
-  </body>
-</html>
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">
+          <h5 class="my-4 h4">Accessories</h5>
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">
+          <h5 class="my-4 h4">Accessories</h5>
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">
+          <h5 class="my-4 h4">Accessories</h5>
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+    </div>
+  </main>
+  <!--Main layout-->
+
+{% endblock body %}

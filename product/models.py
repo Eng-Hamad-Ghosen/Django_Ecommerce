@@ -53,7 +53,7 @@ class Product_Alternative(models.Model):
         
 class Product_Accessories(models.Model):
     PACCProduct =  models.ForeignKey('Product',on_delete=models.CASCADE,related_name='mainAccessory_product', verbose_name=_('Product Name'))
-    PACClternatives = models.ManyToManyField('Product' ,blank=True,related_name='accessories_product' ,verbose_name=_('Accessories'))
+    PACCAccessories = models.ManyToManyField('Product' ,blank=True,related_name='accessories_product' ,verbose_name=_('Accessories'))
 
     def __str__(self):
         return str(self.PACCProduct)
