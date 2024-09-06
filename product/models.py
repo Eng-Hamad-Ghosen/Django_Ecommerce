@@ -1,5 +1,8 @@
 from django.db import models
 from django .utils.text import slugify
+from django.urls import reverse
+# from django.core.url import reverse
+
 from django.utils.translation import gettext_lazy as _
 # Create your models here.
 class Product(models.Model):
@@ -7,14 +10,18 @@ class Product(models.Model):
     PRDCategory = models.ForeignKey('Category' , on_delete=models.CASCADE , verbose_name=_('Category') ,related_name='category_product')
     
     #from other app
-    PRDPrand = models.ForeignKey('settings.Brand',on_delete=models.CASCADE ,verbose_name=_('Brand Name') ,related_name='prand_product',blank=True, null=True)
+    PRDBrand = models.ForeignKey('settings.Brand',on_delete=models.CASCADE ,verbose_name=_('Brand Name') ,related_name='brand_product',blank=True, null=True)
     # PRDVariant = models.ForeignKey('settings.Variant',on_delete=models.CASCADE ,verbose_name=_('Variant Name') ,related_name='variant_product',blank=True, null=True)
     #---------------
-    PRDDescription = models.TextField(max_length=200 , verbose_name=_('Product Description'))
-    PRDPrice = models.DecimalField(max_digits=5 , decimal_places=2 , verbose_name=_('Product Price'))
-    PRDCost = models.DecimalField(max_digits=5 , decimal_places=2 , verbose_name=_('Product Cost'))
+    PRDDescription = models.TextField(max_length=200 , verbose_name=_('Description'))
+    PRDPrice = models.DecimalField(max_digits=5 , decimal_places=2 , verbose_name=_('Price'))
+    PRDDiscountPrice = models.DecimalField(max_digits=5 , decimal_places=2 , verbose_name=_('Discount Price'))
+    PRDCost = models.DecimalField(max_digits=5 , decimal_places=2 , verbose_name=_('Cost'))
     PRDCreated = models.DateTimeField(verbose_name=_('Created At'))
-    PRDImage = models.ImageField(upload_to='product/',blank=True, null=True)
+    PRDImage = models.ImageField(upload_to='product/',blank=True, null=True ,verbose_name=_('Image'))
+    
+    PRDIs_New = models.BooleanField(default=True,verbose_name=_('New Product'))
+    PRDIs_BestSeller = models.BooleanField(default=False,verbose_name=_('Best Seller'))
     
     PRDSlug=models.SlugField(unique=True,blank=True, null=True ,verbose_name=_('Slug'))
     def save(self ,*args ,**kwargs):
@@ -28,9 +35,12 @@ class Product(models.Model):
     def __str__(self):
         return self.PRDName
     
+    def get_absolute_url(self):
+        return reverse('product:product_details', kwargs={'slug': self.PRDSlug})
+    
 class Category(models.Model):
-    CATName =models.CharField(max_length=50 , verbose_name=_('Category Name'))
-    CATParent = models.ForeignKey('self', on_delete=models.CASCADE, limit_choices_to={'CATParent__isnull':True}, blank=True, null=True ,verbose_name=_('Parent Category'))
+    CATName =models.CharField(max_length=50 , verbose_name=_('Name'))
+    CATParent = models.ForeignKey('self', on_delete=models.CASCADE, limit_choices_to={'CATParent__isnull':True}, blank=True, null=True ,verbose_name=_('Main Category'))
     CATDescription = models.TextField(verbose_name=_('Description'))
     CATImage = models.ImageField(upload_to='category/',verbose_name=_('Image'))
     
