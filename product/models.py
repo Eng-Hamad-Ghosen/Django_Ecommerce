@@ -1,4 +1,5 @@
 from django.db import models
+from django .utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 # Create your models here.
 class Product(models.Model):
@@ -15,6 +16,15 @@ class Product(models.Model):
     PRDCreated = models.DateTimeField(verbose_name=_('Created At'))
     PRDImage = models.ImageField(upload_to='product/',blank=True, null=True)
     
+    PRDSlug=models.SlugField(unique=True,blank=True, null=True ,verbose_name=_('Slug'))
+    def save(self ,*args ,**kwargs):
+        self.PRDSlug=slugify(self.PRDName)
+        super(Product,self).save(*args,**kwargs)
+    
+    class Meta:
+        verbose_name = _('Product')
+        verbose_name_plural = _('Products')
+        
     def __str__(self):
         return self.PRDName
     

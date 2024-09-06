@@ -17,9 +17,9 @@ def product_list(request):
     return render(request,'product/product_list.html',context)
 
 
-def product_details(request,id):
-    product_details=Product.objects.get(id=id)
-    product_images=ProductImage.objects.filter(PRDIProduct=id)
+def product_details(request,slug):
+    product_details=Product.objects.get(PRDSlug=slug)
+    product_images=ProductImage.objects.filter(PRDIProduct=product_details.id)
     
     paginator=Paginator(product_images,1)
     page_number=request.GET.get('page')

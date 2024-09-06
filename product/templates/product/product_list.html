@@ -77,7 +77,7 @@
                     <img style="height: 200px;" src="{% static 'site_static/img/default.jpg' %}" class="card-img-top" alt="">
                   {% endif %}
                     
-                  <a href="{% url 'product:product_details' product.id %}">
+                  <a href="{% url 'product:product_details' product.PRDSlug %}">
                     <div class="mask rgba-white-slight"></div>
                   </a>
                 </div>
@@ -86,12 +86,12 @@
                 <!--Card content-->
                 <div class="card-body text-center">
                   <!--Category & Title-->
-                  <a href="{% url 'product:product_details' product.id %}" class="grey-text">
+                  <a href="{% url 'product:product_details' product.PRDSlug %}" class="grey-text">
                     <h5>{{product.PRDCategory}}</h5>
                   </a>
                   <h5>
                     <strong>
-                      <a href="{% url 'product:product_details' product.id %}" class="dark-grey-text">{{product.PRDName}}
+                      <a href="{% url 'product:product_details' product.PRDSlug %}" class="dark-grey-text">{{product.PRDName}}
                         <span class="badge badge-pill danger-color">NEW</span>
                       </a>
                     </strong>
