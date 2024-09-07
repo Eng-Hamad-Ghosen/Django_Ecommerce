@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block body %}
+    <!-- bradcam_area  -->
+    <div class="bradcam_area bradcam_bg_1">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text">
+                        <br><br><br>
+                        <h1>{{profile.user}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ bradcam_area  -->
+
+    <div class="job_details_area">
+        <div class="container">
+            <div class="row">
+               
+                <div class="col-lg-10 mx-auto">
+                    <div class="job_sumary">
+                        <div class="summery_header">
+                            
+                            <h3>Your Profile Summery</h3>
+                        </div>
+                        <div class="job_content">
+                            <ul>
+                                <li><b>Name : </b> <span>{{profile.user}}</span></li>
+                                <li><b>Email :</b>  <span>{{ profile.user.email }} </span></li>
+                                <li><b>Phone :</b>  <span>+  {{profile.mobile}}</span></li>
+                                <li><b>Country :</b>  <span>+  {{profile.citty.name}}</span></li>
+                                <li><b>Country Key :</b>  <span>+  {{profile.citty}}</span></li>
+                                
+                                
+                                <li style="padding-left: 40%;"><span><img src="{{profile.image.url}}" alt="Not found"></span></li>
+                            </ul>
+                        </div> 
+                    </div>
+                    <a href="{% url 'accounts:profile' %}" class="boxed-btn3 w-100">Edit Your Profile</a>
+                    
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+ {% endblock %}
+
+
+
