@@ -35,11 +35,15 @@
                                 <li><b>Country Key :</b>  <span>+  {{profile.citty}}</span></li>
                                 
                                 
+                                {% if profile.image %}
+                                    
                                 <li style="padding-left: 40%;"><span><img src="{{profile.image.url}}" alt="Not found"></span></li>
+                                {% endif %}
+                                    
                             </ul>
                         </div> 
                     </div>
-                    <a href="{% url 'accounts:profile' %}" class="boxed-btn3 w-100">Edit Your Profile</a>
+                    <a href="{% url 'accounts:edit_profile'%}" class="boxed-btn3 w-100">Edit Your Profile</a>
                     
                    
                 </div>

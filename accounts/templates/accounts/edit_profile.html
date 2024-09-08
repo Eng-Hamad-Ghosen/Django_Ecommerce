@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load django_bootstrap5 %}
+
+{% block body %} 
+
+<div class="apply_job_form white-bg">
+  
+  <br><br>
+  <form class="mt-5" method="post" enctype="multipart/form-data" %}>
+    {% csrf_token %}
+    {% bootstrap_form profileForm %}
+    {% bootstrap_form userForm %}
+    <input type="submit" value="Edit Now" class="boxed-btn3 w-100">
+    <input type="hidden" name="next" value="{{ next }}">
+  </form>
+</div>
+
+  {# Assumes you set up the password_reset view in your URLconf #}
+  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+
+{% endblock %}

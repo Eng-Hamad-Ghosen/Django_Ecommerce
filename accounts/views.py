@@ -1,7 +1,10 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
+from django.urls import reverse
 from .forms import SignupForm
 from django.contrib.auth import authenticate , login
 from .models import Profile
+from .forms import UserForm,ProfileForm
+from django.contrib.auth.models import User
 # Create your views here.
 
 def signup(request):
@@ -22,5 +25,25 @@ def signup(request):
 
 def profile(request):
     # profile=Profile.objects.get(user=request.user)
+    if request.method=='GET':
+        
+        profile=get_object_or_404(Profile,user=request.user)
+        return render(request,'accounts/profile.html',{'profile':profile})
+
+def edit_profile(request):
     profile=get_object_or_404(Profile,user=request.user)
-    return render(request,'accounts/profile.html',{'profile':profile})
+    user=get_object_or_404(User,username=request.user)
+    # profilee=Profile.objects.get(id=id)
+    if request.method=='GET':
+        profileForm=ProfileForm(instance=profile)
+        userForm=UserForm(instance=user)
+        return render(request,'accounts/edit_profile.html',{'profileForm':profileForm,'userForm':userForm})
+    else:
+        profileForm=ProfileForm(request.POST,request.FILES,instance=profile)
+        userForm=UserForm(request.POST,instance=user)
+        if profileForm.is_valid() and userForm.is_valid():
+            profileForm.save()
+            userForm.save()
+        # return render(request,'accounts/edit_profile.html',{'form':profileForm})
+        return redirect(reverse('accounts:profile'),{'profile':profile})
+        
